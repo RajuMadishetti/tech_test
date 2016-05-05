@@ -1,0 +1,25 @@
+
+
+upstream myapp1 {
+<% @app_nodes.each do |name, vals| %>
+   server <%= vals["ip"] %>:<%= vals["port"] %>;
+<%end %>
+    
+}
+
+
+
+server {
+  listen   80;
+  server_name  <%= node["hostname"] %>;
+
+  access_log  /var/log/nginx/localhost.access.log;
+
+  location / {
+    proxy_pass http://myapp1;
+  }
+}
+
+
+
+
